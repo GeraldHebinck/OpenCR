@@ -141,9 +141,15 @@ void loop()
   // Update the IMU unit
   sensors.updateIMU();
 
-  // TODO
   // Update sonar data
-  // sensors.updateSonar(t);
+  // Zeitschlitz hinzugefuegt, da update ca 6ms dauert
+  // 15ms offset zum Senden
+  if ((t+15-tTime[7]) >= (1000 / SONAR_UPDATE_FREQUENCY))
+  {
+    sensors.updateSonar(t); // activate Sonar
+    tTime[7] = t;
+  }
+
 
   // Start Gyro Calibration after ROS connection
   updateGyroCali(nh.connected());
