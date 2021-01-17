@@ -18,7 +18,7 @@
 
 #ifndef TURTLEBOT3_CORE_CONFIG_H_
 #define TURTLEBOT3_CORE_CONFIG_H_
-// #define NOETIC_SUPPORT          //uncomment this if writing code for ROS1 Noetic
+#define NOETIC_SUPPORT          // activated for noetic build
 
 #include <ros.h>
 #include <ros/time.h>
@@ -49,6 +49,7 @@
 #define DRIVE_INFORMATION_PUBLISH_FREQUENCY    30   //hz
 #define VERSION_INFORMATION_PUBLISH_FREQUENCY  1    //hz 
 #define DEBUG_LOG_FREQUENCY                    10   //hz 
+#define SONAR_UPDATE_FREQUENCY                 30   //hz 
 
 #define WHEEL_NUM                        2
 
