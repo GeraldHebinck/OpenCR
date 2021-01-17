@@ -327,15 +327,19 @@ float Turtlebot3Sensor::getIRsensorData(void)
 
 void Turtlebot3Sensor::initSonar(void)
 {
-  sonar_pin_.trig = BDPIN_GPIO_1;
+  // Ersetzt durch NewPing
+  /*sonar_pin_.trig = BDPIN_GPIO_1;
   sonar_pin_.echo = BDPIN_GPIO_2;
 
   pinMode(sonar_pin_.trig, OUTPUT);
-  pinMode(sonar_pin_.echo, INPUT);
+  pinMode(sonar_pin_.echo, INPUT);*/
 }
 
 void Turtlebot3Sensor::updateSonar(uint32_t t)
 {
+  int sonar1_data_ = sonar1_.ping_cm();
+  int sonar2_data_ = sonar2_.ping_cm();
+  /*
   static uint32_t t_time = 0;
   static bool make_pulse = TRUE;
   static bool get_duration = FALSE;
@@ -365,8 +369,8 @@ void Turtlebot3Sensor::updateSonar(uint32_t t)
     make_pulse = TRUE;
     get_duration = FALSE;
   }
-
-  sonar_data_ = distance;
+  */
+  sonar_data_ = sonar1_data_ + sonar2_data_ /100; 
 }
 
 float Turtlebot3Sensor::getSonarData(void)
