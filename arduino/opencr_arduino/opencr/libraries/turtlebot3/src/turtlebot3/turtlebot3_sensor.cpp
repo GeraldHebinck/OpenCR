@@ -337,8 +337,8 @@ void Turtlebot3Sensor::initSonar(void)
 
 void Turtlebot3Sensor::updateSonar(uint32_t t)
 {
-  int sonar1_data_ = sonar1_.ping_cm();
-  int sonar2_data_ = sonar2_.ping_cm();
+  unsigned long sonar1_data_ = sonar1_.ping_cm();
+  unsigned long sonar2_data_ = sonar2_.ping_cm();
   /*
   static uint32_t t_time = 0;
   static bool make_pulse = TRUE;
@@ -370,7 +370,7 @@ void Turtlebot3Sensor::updateSonar(uint32_t t)
     get_duration = FALSE;
   }
   */
-  sonar_data_ = sonar1_data_ + sonar2_data_ /100; 
+  sonar_data_ = (float)sonar1_data_ + ((float)sonar2_data_ /100); 
 }
 
 float Turtlebot3Sensor::getSonarData(void)
