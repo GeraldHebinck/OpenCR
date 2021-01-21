@@ -327,50 +327,39 @@ float Turtlebot3Sensor::getIRsensorData(void)
 
 void Turtlebot3Sensor::initSonar(void)
 {
-  // Ersetzt durch NewPing
-  /*sonar_pin_.trig = BDPIN_GPIO_1;
+  sonar_pin_.trig = BDPIN_GPIO_1;
   sonar_pin_.echo = BDPIN_GPIO_2;
 
   pinMode(sonar_pin_.trig, OUTPUT);
-  pinMode(sonar_pin_.echo, INPUT);*/
+  pinMode(sonar_pin_.echo, INPUT);
+  digitalWrite(sonar_pin_.trig, LOW);
 }
 
-void Turtlebot3Sensor::updateSonar(uint32_t t)
-{
-  unsigned long sonar1_data_ = sonar1_.ping_cm();
-  unsigned long sonar2_data_ = sonar2_.ping_cm();
-  /*
-  static uint32_t t_time = 0;
-  static bool make_pulse = TRUE;
-  static bool get_duration = FALSE;
+void Turtlebot3Sensor::updateSonar(uint32_t now){
+  //-- Abstands-Messung mit dem SR04-Sonar durchfuehren --
+  //so KLAPPTS => rostopic hz /tf 30 Hz bei 35cm
+  // Messung nur alle 100ms
+  static uint32_t last_time = 0;
+  const int UPDATE_INTERVALL=200; //ms
 
-  float distance = 0.0, duration = 0.0;
+  // Schallgeschwindigkeit 343,2 m/s 
+  // 58ms pro m hin und zurück
+  // Sonar < 2m => Timeout 11600 us
+  const unsigned long int TIMEOUT=11600; 
+  
+  float distance=0;
+  float duration=0;  
+  last_time = now; //aktuelle Zeit merken
+  digitalWrite(sonar_pin_.trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(sonar_pin_.trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(sonar_pin_.trig, LOW);
 
-  if (make_pulse == TRUE)
-  {
-    digitalWrite(sonar_pin_.trig, HIGH);
-
-    if (t - t_time >= 10)
-    {
-      digitalWrite(sonar_pin_.trig, LOW);
-
-      get_duration = TRUE;
-      make_pulse = FALSE;
-
-      t_time = t;
-    }
-  }
-
-  if (get_duration == TRUE)
-  {
-    duration = pulseIn(sonar_pin_.echo, HIGH);
-    distance = ((float)(340 * duration) / 10000) / 2;
-
-    make_pulse = TRUE;
-    get_duration = FALSE;
-  }
-  */
-  sonar_data_ = (float)sonar1_data_ + ((float)sonar2_data_ /100); 
+  //pulseIn mit Abbruch bei zu langer Wartezeit
+  duration = pulseIn(sonar_pin_.echo, HIGH, TIMEOUT);
+  distance = ((float)(340 * duration) / 10000) / 2;
+  sonar_data_ = distance; //to global Var
 }
 
 float Turtlebot3Sensor::getSonarData(void)

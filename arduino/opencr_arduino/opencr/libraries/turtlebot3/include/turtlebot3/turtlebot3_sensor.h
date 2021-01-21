@@ -21,8 +21,6 @@
 
 #include <IMU.h>
 
-#include <NewPing.h> // Use NewPing for better (and faster) Sonar results
-
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
 
@@ -114,10 +112,6 @@ class Turtlebot3Sensor
 
   cIMU imu_;
   OLLO ollo_;
-
-  // NewPing Instanzen mit max Reichweite 99cm
-  NewPing sonar1_(BDPIN_GPIO_1, BDPIN_GPIO_2, 99)  
-  NewPing sonar2_(BDPIN_GPIO_3, BDPIN_GPIO_4, 99)
 
   LedPinArray led_pin_array_;
   SonarPin sonar_pin_;
