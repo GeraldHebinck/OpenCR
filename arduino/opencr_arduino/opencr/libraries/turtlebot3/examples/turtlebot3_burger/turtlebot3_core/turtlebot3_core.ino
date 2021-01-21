@@ -279,8 +279,8 @@ void publishSensorStateMsg(void)
 
   sensor_state_msg.cliff = sensors.getIRsensorData();
 
-  // TODO
-  // sensor_state_msg.sonar = sensors.getSonarData();
+  // Daten uebernehmen
+  sensor_state_msg.sonar = sensors.getSonarData();
 
   sensor_state_msg.illumination = sensors.getIlluminationData();
   
